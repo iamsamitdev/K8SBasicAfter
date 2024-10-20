@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mongo-client
+  name: mongo-client
+  namespace: demomongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-client
+  template:
+    metadata:
+      labels:
+        app: mongo-client
+    spec:
+      containers:
+        - image: mongo:4.4-bionic
+          name: mongo-client
+          env:
+            - name: mongo-client_INITDB_ROOT_USERNAME
+              value: "dummy"
+            - name: mongo-client_INITDB_ROOT_PASSWORD
+              value: "dummy"
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "250m"
+            limits:
+              memory: "600Mi"
+              cpu: "800m"

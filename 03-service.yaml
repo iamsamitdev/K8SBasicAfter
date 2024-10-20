@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: demok8s
+spec:
+  type: NodePort # ClusterIP,  NodePort, LoadBalancer, ExternalName
+  #type: LoadBalancer
+  ports:
+    - targetPort: 80 #  container port nginx run is 80
+      port: 8800 # service port ข้างนอกเข้ามา expose ที่ port 8800
+      nodePort: 30080 # ถ้าเป็น NodePort จะเป็น port ที่เราจะเข้ามาใช้งาน
+      protocol: TCP
+  selector:
+    app: nginx

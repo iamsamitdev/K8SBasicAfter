@@ -1,0 +1,13 @@
+apiVersion:  autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-v1
+  namespace: demok8s
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 3 # จำนวน pod ที่น้อยที่สุดที่จะสร้างขึ้นมา
+  maxReplicas: 10 # จำนวน pod ที่มากที่สุดที่จะสร้างขึ้นมา
+  targetCPUUtilizationPercentage: 5 # จำนวน CPU ที่ใช้งานเกินกว่า 5% จะทำการสร้าง pod ขึ้นมา

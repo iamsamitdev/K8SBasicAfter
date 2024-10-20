@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactjs-deployment
+  namespace: mernstack
+  labels:
+    app: reactjs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reactjs
+  template:
+    metadata:
+      labels:
+        app: reactjs
+    spec:
+      containers:
+      - name: reactjs
+        image: iamsamitdev/mern_react:1.0
+        imagePullPolicy: Always # บอกให้ Kubernetes ดึง Image ใหม่ทุกครั้ง
+        ports:
+        - containerPort: 80
+        resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reactjs-service
+  namespace: mernstack
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: reactjs

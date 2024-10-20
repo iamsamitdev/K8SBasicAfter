@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  labels:
+    app: server
+  namespace: demok8s
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      name: server-pods
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: dekcode/todo-api:v5
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: "200m"
+            requests:
+              memory: "500Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+  namespace: demok8s
+spec:
+  type: ClusterIP
+  selector:
+    app: server
+  ports:
+    - port: 80
+      targetPort: 80
